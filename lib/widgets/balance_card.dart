@@ -56,30 +56,18 @@ class BalanceCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     // Formatted balance: cents are smaller
-                    RichText(
-                      text: TextSpan(
-                        style: GoogleFonts.inter(
-                          fontSize: 34,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                          letterSpacing: -0.5,
-                        ),
-                        children: [
-                          TextSpan(text: '\$$integerPart'),
-                          TextSpan(
-                            text: '.$decimalPart',
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.white.withValues(alpha: 0.6),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      '${integerPart}FCFA',
+                      style: GoogleFonts.inter(
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                        letterSpacing: -0.5,
                       ),
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      '\$${user.available.toStringAsFixed(2)} Available',
+                      '${user.available.toStringAsFixed(2)}FCFA Available',
                       style: AppTheme.bodySmall.copyWith(
                         color: Colors.white.withValues(alpha: 0.7),
                         fontSize: 12,
@@ -101,7 +89,7 @@ class BalanceCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Due: \$${user.due.toStringAsFixed(0)}',
+                    'Due: ${user.due.toStringAsFixed(0)}FCFA',
                     style: AppTheme.bodySmall.copyWith(
                       color: Colors.white.withValues(alpha: 0.7),
                       fontSize: 12,
@@ -115,7 +103,7 @@ class BalanceCard extends StatelessWidget {
 
           // ── Row 2: Quick Action Buttons (Embedded inside Card) ────────────
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               QuickActionButton(
                 icon: Icons.upload_rounded,
@@ -144,25 +132,23 @@ class BalanceCard extends StatelessWidget {
                 ),
               ),
               QuickActionButton(
-                icon: Icons.add_rounded,
-                label: 'Top Up',
+                icon: Icons.quiz_rounded,
+                label: 'Play Quiz',
                 backgroundColor: AppTheme.mediumGreen,
                 iconColor: Colors.white,
                 textColor: Colors.white.withValues(alpha: 0.9),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const TransferScreen(mode: TransferMode.topUp),
-                  ),
-                ),
-              ),
-              QuickActionButton(
-                icon: Icons.more_horiz_rounded,
-                label: 'Top Up', // Matching target UI's text duplicate for the 4th button
-                backgroundColor: AppTheme.mediumGreen,
-                iconColor: Colors.white,
-                textColor: Colors.white.withValues(alpha: 0.9),
-                onTap: () {}, // Optional action
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('🎯 Quiz coming soon! Test your financial knowledge and win cash back.'),
+                      backgroundColor: AppTheme.mediumGreen,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

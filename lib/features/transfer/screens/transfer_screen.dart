@@ -87,7 +87,7 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
     // Show a success snackbar — in a real app this would call an API
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('$_title of \$${amount.toStringAsFixed(2)} successful!'),
+        content: Text('$_title of ${amount.toStringAsFixed(2)}FCFA successful!'),
         backgroundColor: AppTheme.accentGreen,
         behavior: SnackBarBehavior.floating,
         shape:
@@ -147,7 +147,7 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '\$${user.balance.toStringAsFixed(2)}',
+                      '${user.balance.toStringAsFixed(2)}FCFA',
                       style: AppTheme.balanceAmount.copyWith(fontSize: 26),
                     ),
                   ],
@@ -160,8 +160,8 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
               const SizedBox(height: 10),
               _buildTextField(
                 controller: _amountController,
-                hint: '\$0.00',
-                icon: Icons.attach_money_rounded,
+                hint: '0.00FCFA',
+                icon: Icons.euro_rounded,
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),

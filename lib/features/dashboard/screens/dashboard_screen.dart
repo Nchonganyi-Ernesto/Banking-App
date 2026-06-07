@@ -134,19 +134,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppTheme.darkGreen,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
+                    color: AppTheme.darkGreen.withValues(alpha: 0.15),
+                    blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: const Icon(
                 Icons.notifications_outlined,
-                color: AppTheme.textDark,
+                color: Colors.white,
                 size: 22,
               ),
             ),
@@ -160,7 +160,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 decoration: BoxDecoration(
                   color: AppTheme.sentRed,
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 1.5),
+                  border: Border.all(color: AppTheme.darkGreen, width: 1.5),
                 ),
               ),
             ),

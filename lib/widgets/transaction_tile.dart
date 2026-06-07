@@ -15,8 +15,8 @@ class TransactionTile extends StatelessWidget {
   // This keeps icon logic OUT of the model (models shouldn't know about Flutter).
   IconData _getIcon(String iconPath) {
     switch (iconPath) {
-      case 'dribble':
-        return Icons.sports_basketball;
+      case 'restaurant':
+        return Icons.restaurant_rounded;
       case 'apple':
         return Icons.apple;
       case 'amazon':
@@ -98,7 +98,7 @@ class TransactionTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '$amountPrefix\$${transaction.amount.toStringAsFixed(2)}',
+                '$amountPrefix${transaction.amount.toStringAsFixed(2)}FCFA',
                 style: AppTheme.labelBold.copyWith(
                   color: AppTheme.textDark,
                   fontSize: 16,

@@ -8,11 +8,11 @@ import '../models/transaction_model.dart';
 final transactionProvider = Provider<List<TransactionModel>>((ref) {
   return const [
     TransactionModel(
-      name: 'Dribble',
-      iconPath: 'dribble',      // We'll map these to Icons in the widget
+      name: 'Restaurant',
+      iconPath: 'restaurant',
       date: '2 Jun 2024, 12:10 PM',
       amount: 1220.00,
-      isReceived: true,         // Green — money came in
+      isReceived: false,        // Red — money spent
     ),
     TransactionModel(
       name: 'iPhone 16',
