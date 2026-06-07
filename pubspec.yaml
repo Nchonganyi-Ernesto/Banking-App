@@ -35,6 +35,19 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # Riverpod — our state management solution.
+  # It manages data (user info, transactions) separately from the UI,
+  # so screens automatically update when data changes.
+  flutter_riverpod: ^3.3.1
+
+  # Google Fonts — gives us access to the 'Inter' font.
+  # Inter is a clean, modern typeface used in many fintech apps.
+  google_fonts: ^8.1.0
+
+  # fl_chart — used to draw the mini sparkline chart on the balance card.
+  # It is a powerful charting library for Flutter.
+  fl_chart: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
