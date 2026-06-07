@@ -10,35 +10,35 @@ final transactionProvider = Provider<List<TransactionModel>>((ref) {
     TransactionModel(
       name: 'Restaurant',
       iconPath: 'restaurant',
-      date: '2 Jun 2024, 12:10 PM',
+      date: '6 Jun 2026, 12:10 PM',
       amount: 1220.00,
       isReceived: false,        // Red — money spent
     ),
     TransactionModel(
       name: 'iPhone 16',
       iconPath: 'apple',
-      date: '2 Jun 2024, 12:10 PM',
+      date: '6 Jun 2026, 12:10 PM',
       amount: 1420.00,
       isReceived: false,        // Red — money went out
     ),
     TransactionModel(
       name: 'Amazon',
       iconPath: 'amazon',
-      date: '2 Jun 2024, 12:10 PM',
+      date: '6 Jun 2026, 12:10 PM',
       amount: 1720.00,
       isReceived: false,
     ),
     TransactionModel(
       name: 'Salary',
       iconPath: 'work',
-      date: '1 Jun 2024, 09:00 AM',
+      date: '6 Jun 2026, 09:00 AM',
       amount: 5000.00,
       isReceived: true,
     ),
     TransactionModel(
       name: 'Netflix',
       iconPath: 'movie',
-      date: '31 May 2024, 06:30 PM',
+      date: '5 Jun 2026, 06:30 PM',
       amount: 15.99,
       isReceived: false,
     ),

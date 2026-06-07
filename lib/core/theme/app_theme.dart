@@ -14,13 +14,13 @@ class AppTheme {
   // Updated to closely match the original UI design
   static const Color darkGreen = Color(0xFF0F3122);     // Rich dark forest green (card & nav bg)
   static const Color mediumGreen = Color(0xFF1B4230);   // Slightly lighter dark green (inactive buttons/nav)
-  static const Color cardGreen = Color(0xFF0F3122);     // Balance card background (now dark green)
+  static const Color cardGreen = Color(0xFF0F3122);     // Balance card background (dark green)
   static const Color accentGreen = Color(0xFFD8FA3C);   // Neon lime/yellow for highlights/charts
   static const Color actionYellow = Color(0xFFD8FA3C);  // Active buttons (neon yellow/lime)
   static const Color textLight = Color(0xFFFFFFFF);     // White text on dark green surfaces
   static const Color textDark = Color(0xFF0F3122);      // Dark forest green text on light surfaces
   static const Color textMuted = Color(0xFF708779);     // Muted greyish-green for subtitles/dates
-  static const Color pageBg = Color(0xFFE9EFE6);        // Light greenish-grey page background
+  static const Color pageBg = Color(0xFF051A1A);        // Very dark teal page background
   static const Color receivedGreen = Color(0xFF2ECC71); // Positive amount status color
   static const Color sentRed = Color(0xFFE74C3C);       // Negative amount status color
   static const Color cardWhite = Color(0xFFFFFFFF);     // Transaction card bg

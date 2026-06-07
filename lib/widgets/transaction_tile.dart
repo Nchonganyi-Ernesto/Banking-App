@@ -42,11 +42,11 @@ class TransactionTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: AppTheme.cardWhite,
+        color: const Color(0xFF0F2B2B),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -59,12 +59,12 @@ class TransactionTile extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: AppTheme.iconBg,
+              color: const Color(0xFF0D3F3F),
               shape: BoxShape.circle, // Rounded circle for icon container
             ),
             child: Icon(
               _getIcon(transaction.iconPath),
-              color: AppTheme.darkGreen,
+              color: AppTheme.actionYellow,
               size: 22,
             ),
           ),
@@ -78,7 +78,7 @@ class TransactionTile extends StatelessWidget {
                 Text(
                   transaction.name,
                   style: AppTheme.labelBold.copyWith(
-                    color: AppTheme.textDark,
+                    color: Colors.white,
                     fontSize: 15,
                   ),
                 ),
@@ -86,7 +86,7 @@ class TransactionTile extends StatelessWidget {
                 Text(
                   transaction.date,
                   style: AppTheme.bodySmall.copyWith(
-                    color: AppTheme.textMuted,
+                    color: Colors.white.withValues(alpha: 0.6),
                   ),
                 ),
               ],
@@ -100,7 +100,7 @@ class TransactionTile extends StatelessWidget {
               Text(
                 '$amountPrefix${transaction.amount.toStringAsFixed(2)}FCFA',
                 style: AppTheme.labelBold.copyWith(
-                  color: AppTheme.textDark,
+                  color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -122,7 +122,7 @@ class TransactionTile extends StatelessWidget {
                   Text(
                     statusLabel,
                     style: AppTheme.bodySmall.copyWith(
-                      color: AppTheme.textMuted,
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
                     ),

@@ -19,8 +19,7 @@ class UserNotifier extends Notifier<UserModel> {
       name: 'Tamon Joel',
       avatarUrl: '', // Using initials avatar for now
       balance: 4250.34,
-      available: 5748.88,
-      due: 1024.00,
+      available: 4000.00,
       // These numbers draw the shape of the sparkline chart on the balance card
       sparklineData: [30, 70, 50, 90, 60, 80, 100, 75],
     );
@@ -34,7 +33,6 @@ class UserNotifier extends Notifier<UserModel> {
       avatarUrl: state.avatarUrl,
       balance: newBalance,
       available: state.available,
-      due: state.due,
       sparklineData: state.sparklineData,
     );
   }

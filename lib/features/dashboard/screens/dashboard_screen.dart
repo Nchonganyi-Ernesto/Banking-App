@@ -118,7 +118,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               Text(
                 firstName,
                 style: AppTheme.labelBold.copyWith(
-                  color: AppTheme.textDark,
+                  color: AppTheme.actionYellow,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
@@ -182,6 +182,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             fontSize: 32,
             height: 1.1,
             letterSpacing: -0.5,
+            color: AppTheme.actionYellow,
           ),
         ),
         // White pill-shaped "View Statistics" button
@@ -222,6 +223,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           style: AppTheme.headingMedium.copyWith(
             fontWeight: FontWeight.w700,
             fontSize: 20,
+            color: Colors.white,
           ),
         ),
         TextButton(
@@ -238,7 +240,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           child: Text(
             'View all',
             style: AppTheme.bodySmall.copyWith(
-              color: AppTheme.textMuted,
+              color: AppTheme.actionYellow,
               fontWeight: FontWeight.w600,
               fontSize: 13,
             ),

@@ -8,7 +8,6 @@ class UserModel {
   final String avatarUrl;     // URL or asset path for profile picture
   final double balance;       // e.g. 4250.34
   final double available;     // e.g. 5748.88 (credit available)
-  final double due;           // e.g. 1024.00 (amount owed)
   final List<double> sparklineData; // Points for the mini chart on the card
 
   const UserModel({
@@ -16,7 +15,6 @@ class UserModel {
     required this.avatarUrl,
     required this.balance,
     required this.available,
-    required this.due,
     required this.sparklineData,
   });
 }

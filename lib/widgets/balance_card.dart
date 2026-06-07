@@ -49,7 +49,7 @@ class BalanceCard extends StatelessWidget {
                     Text(
                       'Current Balance',
                       style: AppTheme.bodySmall.copyWith(
-                        color: Colors.white.withValues(alpha: 0.6),
+                        color: Colors.white,
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
                       ),
@@ -61,7 +61,7 @@ class BalanceCard extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: 34,
                         fontWeight: FontWeight.w800,
-                        color: Colors.white,
+                        color: AppTheme.actionYellow,
                         letterSpacing: -0.5,
                       ),
                     ),
@@ -86,14 +86,6 @@ class BalanceCard extends StatelessWidget {
                     width: 95,
                     height: 45,
                     child: _buildSparkline(user.sparklineData),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Due: ${user.due.toStringAsFixed(0)}FCFA',
-                    style: AppTheme.bodySmall.copyWith(
-                      color: Colors.white.withValues(alpha: 0.7),
-                      fontSize: 12,
-                    ),
                   ),
                 ],
               ),
