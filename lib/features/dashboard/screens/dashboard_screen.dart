@@ -10,6 +10,7 @@ import '../../transactions/screens/transactions_screen.dart';
 import '../../statistics/screens/statistics_screen.dart';
 import '../../settings/screens/settings_screen.dart';
 import '../../notifications/screens/notifications_screen.dart';
+import '../../quiz/screens/quiz_screen.dart';
 
 // We use ConsumerWidget instead of StatelessWidget.
 // ConsumerWidget gives us access to 'ref' — the tool to read Riverpod providers.
@@ -292,7 +293,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _navItem(Icons.home_rounded, 0),
-          _navItem(Icons.credit_card_rounded, 1),
+          _navItem(Icons.quiz_rounded, 1),
           _navItem(Icons.insert_chart_rounded, 2),
           _navItem(Icons.settings_rounded, 3),
         ],
@@ -313,7 +314,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           setState(() => _selectedIndex = index);
           
           // Navigate to respective screen
-          if (index == 2) {
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const QuizScreen(),
+              ),
+            ).then((_) {
+              // Reset to home when returning from quiz
+              setState(() => _selectedIndex = 0);
+            });
+          } else if (index == 2) {
             Navigator.push(
               context,
               MaterialPageRoute(
