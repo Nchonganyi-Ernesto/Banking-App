@@ -112,7 +112,7 @@ class _TransactionsScreenState extends ConsumerState<TransactionsScreen>
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: filters.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final isSelected = _selectedFilterIndex == index;
           

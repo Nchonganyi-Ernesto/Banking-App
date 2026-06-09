@@ -51,6 +51,9 @@ dependencies:
   # It is a powerful charting library for Flutter.
   fl_chart: ^1.2.0
 
+  # confetti — adds celebration effects for quiz completion
+  confetti: ^0.7.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

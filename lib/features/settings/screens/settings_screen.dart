@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
-import 'change_password_screen.dart';
-import 'edit_profile_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -118,7 +116,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       onChanged: (value) {
                         setState(() => _biometricsEnabled = value);
                       },
-                      activeColor: AppTheme.actionYellow,
+                      activeThumbColor: AppTheme.actionYellow,
                     ),
                   ),
                   _SettingItem(
@@ -155,7 +153,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       onChanged: (value) {
                         setState(() => _notificationsEnabled = value);
                       },
-                      activeColor: AppTheme.actionYellow,
+                      activeThumbColor: AppTheme.actionYellow,
                     ),
                   ),
                   _SettingItem(
@@ -167,7 +165,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       onChanged: (value) {
                         setState(() => _darkModeEnabled = value);
                       },
-                      activeColor: AppTheme.actionYellow,
+                      activeThumbColor: AppTheme.actionYellow,
                     ),
                   ),
                   _SettingItem(
@@ -216,6 +214,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ]),
               ),
               const SizedBox(height: 24),
+
+              // ── Admin Access (Hidden Feature) ──────────────────────────
+              _StaggeredAnimation(
+                delay: 900,
+                child: _buildAdminAccessButton(),
+              ),
+              const SizedBox(height: 16),
 
               // ── Logout Button ──────────────────────────────────────────
               _StaggeredAnimation(
@@ -413,6 +418,40 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 size: 20,
               ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAdminAccessButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: ElevatedButton.icon(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const AdminDashboardScreen(),
+            ),
+          );
+        },
+        icon: const Icon(Icons.admin_panel_settings_rounded, size: 20),
+        label: const Text(
+          'Admin Dashboard',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppTheme.actionYellow,
+          foregroundColor: AppTheme.textDark,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 4,
+          shadowColor: AppTheme.actionYellow.withValues(alpha: 0.4),
         ),
       ),
     );

@@ -7,6 +7,7 @@ import 'quick_action_button.dart';
 import '../features/transfer/screens/transfer_screen.dart';
 import '../features/transfer/screens/topup_screen.dart';
 import '../features/transfer/screens/withdraw_screen.dart';
+import '../features/quiz/screens/quiz_screen.dart';
 
 class BalanceCard extends StatefulWidget {
   final UserModel user;
@@ -171,14 +172,10 @@ class _BalanceCardState extends State<BalanceCard> {
                 iconColor: Colors.white,
                 textColor: Colors.white.withValues(alpha: 0.9),
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('🎯 Quiz coming soon! Test your financial knowledge and win cash back.'),
-                      backgroundColor: AppTheme.mediumGreen,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const QuizScreen(),
                     ),
                   );
                 },
