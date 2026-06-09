@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "502998556614",
+    "project_id": "bankapp-2e30d",
+    "storage_bucket": "bankapp-2e30d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502998556614:android:f503d9ab2ad9e378211cc7",
+        "android_client_info": {
+          "package_name": "com.example.tutorial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502998556614-551560uerl0pelmh5220s955n18krnqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp5IQoGf4iZzkV8_0Fh6RrWlTBhS8qJsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502998556614-551560uerl0pelmh5220s955n18krnqh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "502998556614-rcnciup4j6psbec45po819uvdjmf2kj7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tutorial"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502998556614:android:b1667dee34d82298211cc7",
+        "android_client_info": {
+          "package_name": "com.example.zentra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502998556614-551560uerl0pelmh5220s955n18krnqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp5IQoGf4iZzkV8_0Fh6RrWlTBhS8qJsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502998556614-551560uerl0pelmh5220s955n18krnqh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "502998556614-rcnciup4j6psbec45po819uvdjmf2kj7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tutorial"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

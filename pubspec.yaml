@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.12.1
+  sdk: ^3.11.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -43,6 +43,9 @@ dependencies:
   # Google Fonts — gives us access to the 'Inter' font.
   # Inter is a clean, modern typeface used in many fintech apps.
   google_fonts: ^8.1.0
+  firebase_core: ^4.10.0
+  firebase_auth: ^6.5.2
+  cloud_firestore: ^6.5.0
 
   # fl_chart — used to draw the mini sparkline chart on the balance card.
   # It is a powerful charting library for Flutter.

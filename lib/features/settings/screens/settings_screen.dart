@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
+import 'change_password_screen.dart';
+import 'edit_profile_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -20,6 +23,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final authState = ref.watch(firebaseAuthStateProvider);
+    final firebaseUser = authState.asData?.value;
+    final userName = firebaseUser?.displayName ?? user.name;
+    final userEmail = firebaseUser?.email ?? 'No email';
 
     return Scaffold(
       backgroundColor: AppTheme.pageBg,
@@ -49,7 +56,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               // ── Profile Section ────────────────────────────────────────
               _StaggeredAnimation(
                 delay: 0,
-                child: _buildProfileCard(user),
+                child: _buildProfileCard(userName, userEmail),
               ),
               const SizedBox(height: 24),
 
@@ -66,19 +73,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     icon: Icons.person_outline,
                     title: 'Edit Profile',
                     subtitle: 'Update your personal information',
-                    onTap: () => _showComingSoon(context),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+                    ),
                   ),
                   _SettingItem(
                     icon: Icons.lock_outline,
                     title: 'Change Password',
                     subtitle: 'Update your password',
-                    onTap: () => _showComingSoon(context),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ChangePasswordScreen()),
+                    ),
                   ),
                   _SettingItem(
                     icon: Icons.phone_outlined,
                     title: 'Phone Number',
-                    subtitle: '+237 6XX XXX XXX',
-                    onTap: () => _showComingSoon(context),
+                    subtitle: 'Update your phone number in profile',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+                    ),
                   ),
                 ]),
               ),
@@ -214,7 +230,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     );
   }
 
-  Widget _buildProfileCard(user) {
+  Widget _buildProfileCard(String name, String email) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -240,7 +256,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             ),
             child: Center(
               child: Text(
-                user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U',
+                name.isNotEmpty ? name[0].toUpperCase() : 'U',
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
@@ -256,7 +272,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user.name,
+                  name,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -265,7 +281,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Premium Member',
+                  email,
                   style: TextStyle(
                     fontSize: 12,
                     color: AppTheme.actionYellow,
@@ -277,7 +293,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           ),
           // Edit Button
           IconButton(
-            onPressed: () => _showComingSoon(context),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+              );
+            },
             icon: const Icon(
               Icons.edit_outlined,
               color: Colors.white,
@@ -505,8 +526,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             ),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
+              await ref.read(authServiceProvider).signOut();
+              if (!mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Text('Logged out successfully'),
