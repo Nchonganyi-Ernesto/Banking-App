@@ -5,6 +5,9 @@ class QuickActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback? onTap;
+  final VoidCallback? onTapDown;
+  final VoidCallback? onTapUp;
+  final VoidCallback? onTapCancel;
   final Color? backgroundColor;
   final Color? iconColor;
   final Color? textColor;
@@ -14,6 +17,9 @@ class QuickActionButton extends StatelessWidget {
     required this.icon,
     required this.label,
     this.onTap,
+    this.onTapDown,
+    this.onTapUp,
+    this.onTapCancel,
     this.backgroundColor,
     this.iconColor,
     this.textColor,
@@ -28,6 +34,9 @@ class QuickActionButton extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
+      onTapDown: onTapDown != null ? (_) => onTapDown!() : null,
+      onTapUp: onTapUp != null ? (_) => onTapUp!() : null,
+      onTapCancel: onTapCancel,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

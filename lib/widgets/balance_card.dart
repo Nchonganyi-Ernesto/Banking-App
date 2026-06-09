@@ -5,16 +5,26 @@ import '../core/theme/app_theme.dart';
 import '../models/user_model.dart';
 import 'quick_action_button.dart';
 import '../features/transfer/screens/transfer_screen.dart';
+import '../features/transfer/screens/topup_screen.dart';
+import '../features/transfer/screens/withdraw_screen.dart';
 
-class BalanceCard extends StatelessWidget {
+class BalanceCard extends StatefulWidget {
   final UserModel user;
 
   const BalanceCard({super.key, required this.user});
 
   @override
+  State<BalanceCard> createState() => _BalanceCardState();
+}
+
+class _BalanceCardState extends State<BalanceCard> {
+  // Track which button is currently being pressed
+  String? _activeButton;
+
+  @override
   Widget build(BuildContext context) {
     // Split the balance to format the cents in a smaller font size
-    final balanceString = user.balance.toStringAsFixed(2);
+    final balanceString = widget.user.balance.toStringAsFixed(2);
     final parts = balanceString.split('.');
     final integerPart = parts[0];
     final decimalPart = parts.length > 1 ? parts[1] : '00';
@@ -67,7 +77,7 @@ class BalanceCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      '${user.available.toStringAsFixed(2)}FCFA Available',
+                      '${widget.user.available.toStringAsFixed(2)}FCFA Available',
                       style: AppTheme.bodySmall.copyWith(
                         color: Colors.white.withValues(alpha: 0.7),
                         fontSize: 12,
@@ -85,7 +95,7 @@ class BalanceCard extends StatelessWidget {
                   SizedBox(
                     width: 95,
                     height: 45,
-                    child: _buildSparkline(user.sparklineData),
+                    child: _buildSparkline(widget.user.sparklineData),
                   ),
                 ],
               ),
@@ -100,28 +110,46 @@ class BalanceCard extends StatelessWidget {
               QuickActionButton(
                 icon: Icons.upload_rounded,
                 label: 'Send',
-                backgroundColor: AppTheme.actionYellow,
-                iconColor: AppTheme.textDark,
+                backgroundColor: _activeButton == 'send' 
+                    ? AppTheme.actionYellow 
+                    : AppTheme.mediumGreen,
+                iconColor: _activeButton == 'send' 
+                    ? AppTheme.textDark 
+                    : Colors.white,
                 textColor: Colors.white.withValues(alpha: 0.9),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const TransferScreen(mode: TransferMode.send),
-                  ),
-                ),
+                onTapDown: () => setState(() => _activeButton = 'send'),
+                onTapUp: () => setState(() => _activeButton = null),
+                onTapCancel: () => setState(() => _activeButton = null),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const TransferScreen(mode: TransferMode.send),
+                    ),
+                  );
+                },
               ),
               QuickActionButton(
                 icon: Icons.account_balance_wallet_rounded,
                 label: 'Top Up',
-                backgroundColor: AppTheme.actionYellow,
-                iconColor: AppTheme.textDark,
+                backgroundColor: _activeButton == 'topup' 
+                    ? AppTheme.actionYellow 
+                    : AppTheme.mediumGreen,
+                iconColor: _activeButton == 'topup' 
+                    ? AppTheme.textDark 
+                    : Colors.white,
                 textColor: Colors.white.withValues(alpha: 0.9),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const TransferScreen(mode: TransferMode.topUp),
-                  ),
-                ),
+                onTapDown: () => setState(() => _activeButton = 'topup'),
+                onTapUp: () => setState(() => _activeButton = null),
+                onTapCancel: () => setState(() => _activeButton = null),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const TopUpScreen(),
+                    ),
+                  );
+                },
               ),
               QuickActionButton(
                 icon: Icons.download_rounded,
@@ -132,7 +160,7 @@ class BalanceCard extends StatelessWidget {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const TransferScreen(mode: TransferMode.withdraw),
+                    builder: (_) => const WithdrawScreen(),
                   ),
                 ),
               ),
