@@ -7,6 +7,7 @@ import '../../../providers/transaction_provider.dart';
 import '../../../widgets/balance_card.dart';
 import '../../../widgets/transaction_tile.dart';
 import '../../transactions/screens/transactions_screen.dart';
+import '../../statistics/screens/statistics_screen.dart';
 
 // We use ConsumerWidget instead of StatelessWidget.
 // ConsumerWidget gives us access to 'ref' — the tool to read Riverpod providers.
@@ -187,7 +188,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         ),
         // White pill-shaped "View Statistics" button
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const StatisticsScreen(),
+              ),
+            );
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             foregroundColor: AppTheme.textDark,
