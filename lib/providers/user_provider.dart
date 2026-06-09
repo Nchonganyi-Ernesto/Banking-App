@@ -36,6 +36,17 @@ class UserNotifier extends Notifier<UserModel> {
       sparklineData: state.sparklineData,
     );
   }
+
+  // Add amount to current balance (e.g., quiz rewards)
+  void addBalance(double amount) {
+    state = UserModel(
+      name: state.name,
+      avatarUrl: state.avatarUrl,
+      balance: state.balance + amount,
+      available: state.available + amount,
+      sparklineData: state.sparklineData,
+    );
+  }
 }
 
 // ── Provider Declaration ───────────────────────────────────────────────────

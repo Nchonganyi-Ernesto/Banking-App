@@ -102,7 +102,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       onChanged: (value) {
                         setState(() => _biometricsEnabled = value);
                       },
-                      activeColor: AppTheme.actionYellow,
+                      activeThumbColor: AppTheme.actionYellow,
                     ),
                   ),
                   _SettingItem(
@@ -139,7 +139,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       onChanged: (value) {
                         setState(() => _notificationsEnabled = value);
                       },
-                      activeColor: AppTheme.actionYellow,
+                      activeThumbColor: AppTheme.actionYellow,
                     ),
                   ),
                   _SettingItem(
@@ -151,7 +151,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       onChanged: (value) {
                         setState(() => _darkModeEnabled = value);
                       },
-                      activeColor: AppTheme.actionYellow,
+                      activeThumbColor: AppTheme.actionYellow,
                     ),
                   ),
                   _SettingItem(
