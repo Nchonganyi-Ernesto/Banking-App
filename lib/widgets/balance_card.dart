@@ -95,7 +95,7 @@ class BalanceCard extends StatelessWidget {
 
           // ── Row 2: Quick Action Buttons (Embedded inside Card) ────────────
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               QuickActionButton(
                 icon: Icons.upload_rounded,
@@ -107,6 +107,19 @@ class BalanceCard extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => const TransferScreen(mode: TransferMode.send),
+                  ),
+                ),
+              ),
+              QuickActionButton(
+                icon: Icons.account_balance_wallet_rounded,
+                label: 'Top Up',
+                backgroundColor: AppTheme.actionYellow,
+                iconColor: AppTheme.textDark,
+                textColor: Colors.white.withValues(alpha: 0.9),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const TransferScreen(mode: TransferMode.topUp),
                   ),
                 ),
               ),

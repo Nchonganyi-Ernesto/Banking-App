@@ -23,12 +23,12 @@ class TransactionsScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded,
-              color: AppTheme.textDark),
+              color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'All Transactions',
-          style: AppTheme.headingMedium.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+          style: AppTheme.headingMedium.copyWith(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -77,7 +77,7 @@ class TransactionsScreen extends ConsumerWidget {
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: isSelected
-                  ? AppTheme.actionYellow
+                  ? const Color(0xFF1A4F4F)
                   : AppTheme.iconBg,
               borderRadius: BorderRadius.circular(20),
             ),
@@ -85,7 +85,7 @@ class TransactionsScreen extends ConsumerWidget {
               months[index],
               style: AppTheme.bodySmall.copyWith(
                 color: isSelected
-                    ? AppTheme.textDark
+                    ? Colors.white
                     : AppTheme.textMuted,
                 fontWeight:
                     isSelected ? FontWeight.w700 : FontWeight.w500,

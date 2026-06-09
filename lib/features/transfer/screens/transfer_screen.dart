@@ -21,13 +21,17 @@ class TransferScreen extends ConsumerStatefulWidget {
 class _TransferScreenState extends ConsumerState<TransferScreen> {
   // TextEditingController lets us read what the user typed in the amount field
   final _amountController = TextEditingController();
-  final _recipientController = TextEditingController();
+  final _recipientNameController = TextEditingController();
+  final _recipientPhoneController = TextEditingController();
+  final _purposeController = TextEditingController();
 
   // Called when the form is disposed (screen closed) to free memory
   @override
   void dispose() {
     _amountController.dispose();
-    _recipientController.dispose();
+    _recipientNameController.dispose();
+    _recipientPhoneController.dispose();
+    _purposeController.dispose();
     super.dispose();
   }
 
@@ -82,13 +86,29 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
       return;
     }
 
+    // Validate recipient account field for send mode
+    if (widget.mode == TransferMode.send) {
+      if (_recipientPhoneController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Please enter recipient account number'),
+            backgroundColor: AppTheme.sentRed,
+            behavior: SnackBarBehavior.floating,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        );
+        return;
+      }
+    }
+
     final amount = double.tryParse(_amountController.text) ?? 0;
 
     // Show a success snackbar — in a real app this would call an API
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('$_title of ${amount.toStringAsFixed(2)}FCFA successful!'),
-        backgroundColor: AppTheme.accentGreen,
+        backgroundColor: AppTheme.receivedGreen,
         behavior: SnackBarBehavior.floating,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -108,16 +128,19 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
     return Scaffold(
       backgroundColor: AppTheme.pageBg,
       appBar: AppBar(
-        backgroundColor: AppTheme.pageBg,
+        backgroundColor: AppTheme.cardGreen,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded,
-              color: AppTheme.textDark),
+          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           _title,
-          style: AppTheme.headingMedium.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
@@ -127,8 +150,6 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12),
-
               // ── Current Balance Display ─────────────────────────────────
               Container(
                 width: double.infinity,
@@ -136,49 +157,81 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
                 decoration: BoxDecoration(
                   color: AppTheme.cardGreen,
                   borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Column(
                   children: [
                     Text(
                       'Available Balance',
                       style: AppTheme.bodySmall.copyWith(
-                        color: Colors.white.withValues(alpha: 0.6),
+                        color: Colors.white.withValues(alpha: 0.8),
+                        fontSize: 12,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       '${user.balance.toStringAsFixed(2)}FCFA',
-                      style: AppTheme.balanceAmount.copyWith(fontSize: 26),
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFFD8FA3C),
+                        letterSpacing: -0.5,
+                      ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 32),
 
+              // ── Recipient Fields (only shown for 'send' mode) ───────────
+              if (widget.mode == TransferMode.send) ...[
+                _buildSectionLabel('Recipient Account'),
+                const SizedBox(height: 10),
+                _buildTextField(
+                  controller: _recipientPhoneController,
+                  hint: 'Phone number or Account number',
+                  icon: Icons.account_balance_outlined,
+                  keyboardType: TextInputType.phone,
+                ),
+                const SizedBox(height: 24),
+              ],
+
               // ── Amount Input ────────────────────────────────────────────
-              Text('Enter Amount', style: AppTheme.bodyMedium),
+              _buildSectionLabel('Enter Amount'),
               const SizedBox(height: 10),
               _buildTextField(
                 controller: _amountController,
-                hint: '0.00FCFA',
-                icon: Icons.euro_rounded,
+                hint: '0.00 FCFA',
+                icon: Icons.currency_franc_rounded,
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
-              // ── Recipient / Note (only shown for 'send' mode) ───────────
+              // ── Additional Recipient Details (only shown for 'send' mode) ───────────
               if (widget.mode == TransferMode.send) ...[
-                Text('Recipient', style: AppTheme.bodyMedium),
+                _buildSectionLabel('Recipient Name (Optional)'),
                 const SizedBox(height: 10),
                 _buildTextField(
-                  controller: _recipientController,
-                  hint: 'Name or account number',
+                  controller: _recipientNameController,
+                  hint: 'Full name',
                   icon: Icons.person_outline_rounded,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
+                _buildSectionLabel('Purpose (Optional)'),
+                const SizedBox(height: 10),
+                _buildTextField(
+                  controller: _purposeController,
+                  hint: 'e.g., Rent, Utility, Gift',
+                  icon: Icons.note_outlined,
+                ),
+                const SizedBox(height: 24),
               ],
-
-              const SizedBox(height: 16),
 
               // ── Action Button ────────────────────────────────────────────
               SizedBox(
@@ -186,10 +239,14 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
                 height: 56,
                 child: ElevatedButton.icon(
                   onPressed: _handleSubmit,
-                  icon: Icon(_icon, color: AppTheme.textDark),
+                  icon: Icon(_icon, color: AppTheme.textDark, size: 24),
                   label: Text(
                     _buttonLabel,
-                    style: AppTheme.labelBold.copyWith(fontSize: 16),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.actionYellow,
@@ -209,6 +266,19 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
     );
   }
 
+  // Section label with better styling
+  Widget _buildSectionLabel(String label) {
+    return Text(
+      label,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+        letterSpacing: 0.3,
+      ),
+    );
+  }
+
   // Reusable styled text field builder — keeps build() clean
   Widget _buildTextField({
     required TextEditingController controller,
@@ -218,21 +288,42 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFF0F2B2B),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.textMuted.withValues(alpha: 0.2)),
+        border: Border.all(
+          color: AppTheme.mediumGreen.withValues(alpha: 0.5),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
-        style: AppTheme.bodyMedium,
+        style: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: AppTheme.bodySmall,
-          prefixIcon: Icon(icon, color: AppTheme.textMuted),
-          border: InputBorder.none, // Remove default Flutter underline
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          hintStyle: TextStyle(
+            fontSize: 14,
+            color: Colors.white.withValues(alpha: 0.4),
+            fontWeight: FontWeight.w400,
+          ),
+          prefixIcon: Icon(
+            icon,
+            color: AppTheme.actionYellow,
+            size: 22,
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
         ),
       ),
     );
