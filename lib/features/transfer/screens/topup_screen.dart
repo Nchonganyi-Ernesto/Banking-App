@@ -107,7 +107,7 @@ class _TopUpScreenState extends ConsumerState<TopUpScreen>
     return Scaffold(
       backgroundColor: AppTheme.pageBg,
       appBar: AppBar(
-        backgroundColor: AppTheme.pageBg,
+        backgroundColor: AppTheme.cardGreen,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),

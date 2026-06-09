@@ -8,6 +8,8 @@ import '../../../widgets/balance_card.dart';
 import '../../../widgets/transaction_tile.dart';
 import '../../transactions/screens/transactions_screen.dart';
 import '../../statistics/screens/statistics_screen.dart';
+import '../../settings/screens/settings_screen.dart';
+import '../../notifications/screens/notifications_screen.dart';
 
 // We use ConsumerWidget instead of StatelessWidget.
 // ConsumerWidget gives us access to 'ref' — the tool to read Riverpod providers.
@@ -131,24 +133,34 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         // Notification Bell Icon with Red Badge
         Stack(
           children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: AppTheme.darkGreen,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.darkGreen.withValues(alpha: 0.15),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const NotificationsScreen(),
                   ),
-                ],
-              ),
-              child: const Icon(
-                Icons.notifications_outlined,
-                color: Colors.white,
-                size: 22,
+                );
+              },
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppTheme.darkGreen,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.darkGreen.withValues(alpha: 0.15),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.notifications_outlined,
+                  color: Colors.white,
+                  size: 22,
+                ),
               ),
             ),
             // Red notification badge dot
@@ -292,7 +304,38 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget _navItem(IconData icon, int index) {
     final isSelected = _selectedIndex == index;
     return GestureDetector(
-      onTap: () => setState(() => _selectedIndex = index),
+      onTap: () {
+        // Only update selection for home (index 0) since it stays on dashboard
+        if (index == 0) {
+          setState(() => _selectedIndex = 0);
+        } else {
+          // For other tabs, temporarily highlight then navigate
+          setState(() => _selectedIndex = index);
+          
+          // Navigate to respective screen
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const StatisticsScreen(),
+              ),
+            ).then((_) {
+              // Reset to home when returning from statistics
+              setState(() => _selectedIndex = 0);
+            });
+          } else if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SettingsScreen(),
+              ),
+            ).then((_) {
+              // Reset to home when returning from settings
+              setState(() => _selectedIndex = 0);
+            });
+          }
+        }
+      },
       child: Container(
         width: 50,
         height: 50,
