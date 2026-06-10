@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../auth/screens/login_screen.dart';
+
+// Simple in-memory storage for onboarding status
+bool _hasSeenOnboarding = false;
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
+  
+  // Static method to check if onboarding has been completed
+  static bool isCompleted() {
+    return _hasSeenOnboarding;
+  }
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
@@ -44,7 +51,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: AppTheme.pageBg,
       body: Stack(
         children: [
-          // Background gradient
           Container(
             decoration: BoxDecoration(
               gradient: RadialGradient(
@@ -58,7 +64,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-          
           Column(
             children: [
               Expanded(
@@ -77,8 +82,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                 ),
               ),
-              
-              // Page Indicator and Buttons
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                 child: Column(
@@ -91,14 +94,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                     ),
                     const SizedBox(height: 32),
-                    
                     if (_currentPage == _onboardingPages.length - 1)
                       _buildGetStartedButton()
                     else
                       _buildNextButton(),
-                    
                     const SizedBox(height: 16),
-                    
                     if (_currentPage != _onboardingPages.length - 1)
                       TextButton(
                         onPressed: _isNavigating ? null : () => _completeOnboarding(),
@@ -235,44 +235,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Future<void> _completeOnboarding() async {
+  void _completeOnboarding() {
     if (_isNavigating) return;
     
     setState(() {
       _isNavigating = true;
     });
     
-    try {
-      // Save onboarding completion status
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('onboarding_completed', true);
-      
-      // Verify it was saved
-      final saved = await prefs.getBool('onboarding_completed');
-      print('Onboarding completed saved: $saved');
-      
-      // Navigate to login screen
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const LoginScreen()),
-        );
-      }
-    } catch (e) {
-      print('Error saving onboarding status: $e');
-      setState(() {
-        _isNavigating = false;
-      });
-      
-      // Show error message
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
+    // Set the flag to true
+    _hasSeenOnboarding = true;
+    
+    // Navigate to login screen
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
+    );
   }
 }
 
@@ -302,7 +278,6 @@ class OnboardingPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Animated icon container
           Container(
             width: 140,
             height: 140,
@@ -344,10 +319,7 @@ class OnboardingPage extends StatelessWidget {
               ),
             ),
           ),
-          
           const SizedBox(height: 48),
-          
-          // Title
           Text(
             data.title,
             style: AppTheme.headingLarge.copyWith(
@@ -357,10 +329,7 @@ class OnboardingPage extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          
           const SizedBox(height: 20),
-          
-          // Description
           Text(
             data.description,
             style: AppTheme.bodyMedium.copyWith(
