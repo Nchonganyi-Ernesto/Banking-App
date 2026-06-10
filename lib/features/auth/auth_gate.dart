@@ -31,26 +31,20 @@ class AuthGate extends ConsumerWidget {
         print('🎯 Navigating to DashboardScreen');
         return const DashboardScreen();
       },
-      loading: () {
-        print('⏳ AuthGate loading...');
-        return const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        );
-      },
-      error: (error, stack) {
-        print('❌ AuthGate error: $error');
-        return Scaffold(
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                'Authentication error:\n${error.toString()}',
-                textAlign: TextAlign.center,
-              ),
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stack) => Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(
+              'Authentication error:\n${error.toString()}',
+              textAlign: TextAlign.center,
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

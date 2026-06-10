@@ -1,0 +1,10 @@
+[33me58e186[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Minor changes
+[33me2fd808[m Fix onboarding and remove shared_preferences dependency
+[33m69ff7d5[m Merge remote changes and resolve conflicts
+[33md27d455[m Enhance UI and add onboarding feature
+[33m8dab5fc[m dependecies update
+[33m862af97[m Fix Android build configuration
+[33mf07cf18[m Merge remote changes and resolve conflicts
+[33m3f87c39[m Merge remote changes and resolve conflicts
+[33m7ce1c64[m WIP: fix auth update and settings
+[33m202700c[m fnalised all vews for user dahboard

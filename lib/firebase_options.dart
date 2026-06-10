@@ -40,6 +40,7 @@ class DefaultFirebaseOptions {
     projectId: 'bankapp-2e30d',
     storageBucket: 'bankapp-2e30d.firebasestorage.app',
   );
+
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBOxUIiq-RQ9SiADPD1WEQBm6fPFvgkU1c',
     appId: '1:502998556614:ios:4a3c16dafc9ee09d211cc7',
