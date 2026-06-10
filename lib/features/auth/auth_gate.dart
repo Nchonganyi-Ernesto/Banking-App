@@ -24,13 +24,7 @@ class AuthGate extends ConsumerWidget {
       ),
       error: (error, stack) => Scaffold(
         body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(
-              'Authentication error:\n${error.toString()}',
-              textAlign: TextAlign.center,
-            ),
-          ),
+          child: Text('Error: ${error.toString()}'),
         ),
       ),
     );
