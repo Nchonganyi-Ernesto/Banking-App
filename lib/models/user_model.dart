@@ -17,4 +17,46 @@ class UserModel {
     required this.available,
     required this.sparklineData,
   });
+
+  // Convert Firestore document to UserModel
+  factory UserModel.fromFirestore(Map<String, dynamic> data) {
+    return UserModel(
+      name: data['name'] ?? 'User',
+      avatarUrl: data['avatarUrl'] ?? '',
+      balance: (data['balance'] ?? 0.0).toDouble(),
+      available: (data['available'] ?? 0.0).toDouble(),
+      sparklineData: data['sparklineData'] != null
+          ? List<double>.from(data['sparklineData'])
+          : [30, 70, 50, 90, 60, 80, 100, 75], // Default sparkline
+    );
+  }
+
+  // Convert UserModel to Firestore document
+  Map<String, dynamic> toFirestore() {
+    return {
+      'name': name,
+      'avatarUrl': avatarUrl,
+      'balance': balance,
+      'available': available,
+      'sparklineData': sparklineData,
+      'updatedAt': DateTime.now().toIso8601String(),
+    };
+  }
+
+  // Create a copy with updated fields
+  UserModel copyWith({
+    String? name,
+    String? avatarUrl,
+    double? balance,
+    double? available,
+    List<double>? sparklineData,
+  }) {
+    return UserModel(
+      name: name ?? this.name,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      balance: balance ?? this.balance,
+      available: available ?? this.available,
+      sparklineData: sparklineData ?? this.sparklineData,
+    );
+  }
 }

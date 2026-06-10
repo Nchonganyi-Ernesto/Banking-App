@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:confetti/confetti.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../providers/quiz_provider.dart';
+import '../../../providers/user_provider.dart';
 import 'quiz_screen.dart';
 
 class QuizResultsScreen extends ConsumerStatefulWidget {
@@ -454,22 +455,49 @@ class _QuizResultsScreenState extends ConsumerState<QuizResultsScreen>
     return points;
   }
 
-  void _claimReward(int reward) {
+  void _claimReward(int reward) async {
     setState(() {
       _isClaimed = true;
     });
 
-    // Show success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('🎉 Points Claimed!'),
-        backgroundColor: AppTheme.receivedGreen,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    // Add points to user balance in Firestore
+    try {
+      final userNotifier = ref.read(userProvider.notifier);
+      await userNotifier.addBalance(reward.toDouble());
+
+      // Show success message
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('🎉 $reward Points Added to Balance!'),
+            backgroundColor: AppTheme.receivedGreen,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      // If error, show error message and reset claimed state
+      if (mounted) {
+        setState(() {
+          _isClaimed = false;
+        });
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Failed to claim points. Try again.'),
+            backgroundColor: AppTheme.sentRed,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    }
   }
 }

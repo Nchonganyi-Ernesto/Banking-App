@@ -54,15 +54,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         final credential = await authService.createUserWithEmail(email, password);
         final uid = credential.user?.uid;
         if (uid != null) {
-          await credential.user?.updateDisplayName(_fullNameController.text.trim());
+          final userName = _fullNameController.text.trim();
+          await credential.user?.updateDisplayName(userName);
+          
+          // Create user document in Firestore with zero balance
+          await firestoreService.createUserDocument(uid, userName);
+          
+          // Also store additional profile info
           await firestoreService.setUserData(uid, {
-            'fullName': _fullNameController.text.trim(),
+            'fullName': userName,
             'email': email,
             'phone': _phoneController.text.trim(),
             'address': _addressController.text.trim(),
-            'createdAt': DateTime.now().toUtc(),
             'accountStatus': 'active',
-            'balance': 0,
           });
         }
         return;
