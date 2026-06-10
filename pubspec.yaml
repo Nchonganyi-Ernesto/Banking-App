@@ -43,6 +43,8 @@ dependencies:
   # Google Fonts — gives us access to the 'Inter' font.
   # Inter is a clean, modern typeface used in many fintech apps.
   google_fonts: ^8.1.0
+  
+  # Firebase
   firebase_core: ^4.10.0
   firebase_auth: ^6.5.2
   cloud_firestore: ^6.5.0
@@ -52,7 +54,7 @@ dependencies:
   fl_chart: ^1.2.0
 
   # confetti — adds celebration effects for quiz completion
-  confetti: ^0.8.0
+  confetti: ^0.7.0
 
 dev_dependencies:
   flutter_test:
