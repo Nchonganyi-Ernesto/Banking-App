@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -84,12 +85,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
 
     try {
       if (_isRegistering) {
+        print('📝 Starting registration process...');
         final credential = await authService.createUserWithEmail(email, password);
         final uid = credential.user?.uid;
         if (uid != null) {
           final userName = _fullNameController.text.trim();
+          print('👤 Setting display name: $userName');
           await credential.user?.updateDisplayName(userName);
           
+          print('💾 Creating Firestore user document...');
           // Create user document in Firestore with zero balance
           await firestoreService.createUserDocument(uid, userName);
           
@@ -101,21 +105,60 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
             'address': _addressController.text.trim(),
             'accountStatus': 'active',
           });
+          
+          print('✅ Registration complete, AuthGate should navigate...');
         }
+        // AuthGate will automatically navigate to dashboard
         return;
       }
 
-      await authService.signInWithEmail(email, password);
+      // Sign in existing user
+      print('🔑 Starting sign-in process...');
+      final credential = await authService.signInWithEmail(email, password);
+      final uid = credential.user?.uid;
+      
+      print('✅ Sign-in credential received, uid: $uid');
+      
+      // Check if user document exists in Firestore
+      if (uid != null) {
+        print('📄 Checking if user document exists...');
+        final userDoc = await firestoreService.getUserData(uid);
+        
+        // If document doesn't exist, create it for old users
+        if (!userDoc.exists) {
+          print('⚠️ User document missing, creating...');
+          final userName = credential.user?.displayName ?? 'User';
+          await firestoreService.createUserDocument(uid, userName);
+          
+          // Add email to profile
+          await firestoreService.setUserData(uid, {
+            'fullName': userName,
+            'email': email,
+            'accountStatus': 'active',
+          });
+          print('✅ User document created');
+        } else {
+          print('✅ User document exists');
+        }
+      }
+      
+      print('🎯 Sign-in complete, AuthGate should navigate...');
+      // AuthGate will automatically navigate to dashboard
     } on FirebaseAuthException catch (error) {
+      // Log the error to console for debugging
+      debugPrint('❌ FirebaseAuthException: ${error.code} - ${error.message}');
       setState(() {
         _errorMessage = _mapAuthErrorMessage(error);
       });
     } catch (error) {
+      // Log general errors
+      debugPrint('❌ Authentication error: $error');
       setState(() {
         _errorMessage = 'Something went wrong. Please try again.';
       });
     } finally {
       if (mounted) {
+        print('🔄 Setting _isSubmitting = false');
         setState(() {
           _isSubmitting = false;
         });
@@ -158,7 +201,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                 center: Alignment.topCenter,
                 radius: 1.2,
                 colors: [
-                  AppTheme.darkGreen.withOpacity(0.4),
+                  AppTheme.darkGreen.withValues(alpha: 0.4),
                   AppTheme.pageBg,
                   AppTheme.pageBg,
                 ],
@@ -203,7 +246,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppTheme.actionYellow.withOpacity(0.3),
+                                  color: AppTheme.actionYellow.withValues(alpha: 0.3),
                                   blurRadius: 20,
                                   spreadRadius: -5,
                                 ),
@@ -345,9 +388,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.sentRed.withOpacity(0.1),
+                                  color: AppTheme.sentRed.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: AppTheme.sentRed.withOpacity(0.2)),
+                                  border: Border.all(color: AppTheme.sentRed.withValues(alpha: 0.2)),
                                 ),
                                 child: Row(
                                   children: [
@@ -462,7 +505,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -479,12 +522,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: AppTheme.bodyMedium.copyWith(
-                color: AppTheme.textMuted.withOpacity(0.5),
+                color: AppTheme.textMuted.withValues(alpha: 0.5),
               ),
               prefixIcon: Icon(icon, color: AppTheme.textMuted, size: 20),
               suffixIcon: suffixIcon,
               filled: true,
-              fillColor: Colors.white.withOpacity(0.95),
+              fillColor: Colors.white.withValues(alpha: 0.95),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide.none,
@@ -529,7 +572,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.actionYellow.withOpacity(0.3),
+            color: AppTheme.actionYellow.withValues(alpha: 0.3),
             blurRadius: 20,
             spreadRadius: -5,
             offset: const Offset(0, 8),
@@ -600,7 +643,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                 decoration: InputDecoration(
                   hintText: 'you@example.com',
                   hintStyle: AppTheme.bodyMedium.copyWith(
-                    color: AppTheme.textMuted.withOpacity(0.5),
+                    color: AppTheme.textMuted.withValues(alpha: 0.5),
                   ),
                   prefixIcon: Icon(Icons.email_outlined, color: AppTheme.textMuted),
                   filled: true,
@@ -646,15 +689,15 @@ class BackgroundPatternPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppTheme.actionYellow.withOpacity(0.03)
+      ..color = AppTheme.actionYellow.withValues(alpha: 0.03)
       ..style = PaintingStyle.fill;
     
     canvas.drawCircle(Offset(size.width * 0.1, size.height * 0.2), size.width * 0.3, paint);
     
-    paint.color = AppTheme.accentGreen.withOpacity(0.03);
+    paint.color = AppTheme.accentGreen.withValues(alpha: 0.03);
     canvas.drawCircle(Offset(size.width * 0.9, size.height * 0.7), size.width * 0.25, paint);
     
-    paint.color = AppTheme.darkGreen.withOpacity(0.04);
+    paint.color = AppTheme.darkGreen.withValues(alpha: 0.04);
     canvas.drawCircle(Offset(size.width * 0.5, size.height * 0.9), size.width * 0.4, paint);
   }
 

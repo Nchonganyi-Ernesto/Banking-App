@@ -64,9 +64,9 @@ class _SplashScreenState extends State<SplashScreen>
     if (!mounted) return;
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => const AuthGate(),
+        pageBuilder: (_, _, _) => const AuthGate(),
         transitionDuration: const Duration(milliseconds: 600),
-        transitionsBuilder: (_, animation, __, child) {
+        transitionsBuilder: (_, animation, _, child) {
           return FadeTransition(
             opacity: animation,
             child: child,
@@ -103,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppTheme.accentGreen.withOpacity(0.4),
+                          color: AppTheme.accentGreen.withValues(alpha: 0.4),
                           blurRadius: 30,
                           spreadRadius: 5,
                           offset: const Offset(0, 0),
@@ -162,7 +162,7 @@ class _SplashScreenState extends State<SplashScreen>
                       valueColor: AlwaysStoppedAnimation<Color>(
                         AppTheme.actionYellow,
                       ),
-                      backgroundColor: AppTheme.textMuted.withOpacity(0.3),
+                      backgroundColor: AppTheme.textMuted.withValues(alpha: 0.3),
                     ),
                   ),
                 ],

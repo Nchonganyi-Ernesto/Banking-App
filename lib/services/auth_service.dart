@@ -3,22 +3,48 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Stream<User?> authStateChanges() => _auth.authStateChanges();
-
-  User? get currentUser => _auth.currentUser;
-
-  Future<UserCredential> signInWithEmail(String email, String password) {
-    return _auth.signInWithEmailAndPassword(
-      email: email.trim(),
-      password: password.trim(),
-    );
+  Stream<User?> authStateChanges() {
+    print('🔄 AuthService: Setting up authStateChanges stream');
+    return _auth.authStateChanges().map((user) {
+      print('🔄 AuthStateChange: ${user?.email ?? "null"}');
+      return user;
+    });
   }
 
-  Future<UserCredential> createUserWithEmail(String email, String password) {
-    return _auth.createUserWithEmailAndPassword(
-      email: email.trim(),
-      password: password.trim(),
-    );
+  User? get currentUser {
+    final user = _auth.currentUser;
+    print('👤 Current user: ${user?.email ?? "null"}');
+    return user;
+  }
+
+  Future<UserCredential> signInWithEmail(String email, String password) async {
+    print('🔑 Attempting sign in with: $email');
+    try {
+      final credential = await _auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+      print('✅ Sign in successful: ${credential.user?.email}');
+      return credential;
+    } catch (e) {
+      print('❌ Sign in failed: $e');
+      rethrow;
+    }
+  }
+
+  Future<UserCredential> createUserWithEmail(String email, String password) async {
+    print('📝 Attempting registration with: $email');
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+      print('✅ Registration successful: ${credential.user?.email}');
+      return credential;
+    } catch (e) {
+      print('❌ Registration failed: $e');
+      rethrow;
+    }
   }
 
   Future<void> updateDisplayName(String name) async {
@@ -26,6 +52,7 @@ class AuthService {
     if (user != null) {
       await user.updateDisplayName(name.trim());
       await user.reload();
+      print('✅ Display name updated to: $name');
     }
   }
 
@@ -65,6 +92,8 @@ class AuthService {
   }
 
   Future<void> signOut() {
+    print('👋 Signing out');
     return _auth.signOut();
   }
 }
+

@@ -81,8 +81,6 @@ class AppTheme {
       onSecondary: darkGreen,
       surface: mediumGreen,
       onSurface: textLight,
-      background: pageBg,
-      onBackground: textLight,
       error: sentRed,
       onError: textLight,
       primaryContainer: cardGreen,
@@ -95,8 +93,7 @@ class AppTheme {
       colorScheme: colorScheme,
       primaryColor: darkGreen,
       cardColor: mediumGreen,
-      dialogBackgroundColor: mediumGreen,
-      dividerColor: iconBg.withOpacity(0.35),
+      dividerColor: iconBg.withValues(alpha: 0.35),
       appBarTheme: const AppBarTheme(
         backgroundColor: darkGreen,
         foregroundColor: textLight,
@@ -108,17 +105,17 @@ class AppTheme {
         contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
-          borderSide: BorderSide(color: iconBg.withOpacity(0.18)),
+          borderSide: BorderSide(color: iconBg.withValues(alpha: 0.18)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
-          borderSide: BorderSide(color: iconBg.withOpacity(0.18)),
+          borderSide: BorderSide(color: iconBg.withValues(alpha: 0.18)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
-          borderSide: BorderSide(color: accentGreen.withOpacity(0.8), width: 2),
+          borderSide: BorderSide(color: accentGreen.withValues(alpha: 0.8), width: 2),
         ),
-        labelStyle: GoogleFonts.inter(color: textLight.withOpacity(0.9), fontWeight: FontWeight.w500),
+        labelStyle: GoogleFonts.inter(color: textLight.withValues(alpha: 0.9), fontWeight: FontWeight.w500),
         hintStyle: GoogleFonts.inter(color: textMuted),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -133,7 +130,7 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: textLight,
-          side: BorderSide(color: iconBg.withOpacity(0.28)),
+          side: BorderSide(color: iconBg.withValues(alpha: 0.28)),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
           textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
@@ -148,7 +145,7 @@ class AppTheme {
       // Remove splash/ripple effect on taps
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      splashFactory: NoSplash.splashFactory,
+      splashFactory: NoSplash.splashFactory, dialogTheme: DialogThemeData(backgroundColor: mediumGreen),
     );
   }
 }

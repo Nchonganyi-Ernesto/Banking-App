@@ -7,6 +7,9 @@ final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService();
 });
 
+// Keep the stream alive - don't use autoDispose
 final firebaseAuthStateProvider = StreamProvider<User?>((ref) {
-  return ref.watch(authServiceProvider).authStateChanges();
+  print('🔄 firebaseAuthStateProvider: Creating stream');
+  final authService = ref.watch(authServiceProvider);
+  return authService.authStateChanges();
 });

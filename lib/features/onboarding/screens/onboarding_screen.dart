@@ -5,7 +5,8 @@ import '../../../core/theme/app_theme.dart';
 import '../../auth/screens/login_screen.dart';
 
 // Simple in-memory storage for onboarding status
-bool _hasSeenOnboarding = false;
+// Set to true to skip onboarding during development
+bool _hasSeenOnboarding = true;
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -57,7 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 center: Alignment.topCenter,
                 radius: 1.5,
                 colors: [
-                  AppTheme.darkGreen.withOpacity(0.4),
+                  AppTheme.darkGreen.withValues(alpha: 0.4),
                   AppTheme.pageBg,
                   AppTheme.pageBg,
                 ],
@@ -128,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         borderRadius: BorderRadius.circular(4),
         color: _currentPage == index
             ? AppTheme.actionYellow
-            : AppTheme.textMuted.withOpacity(0.3),
+            : AppTheme.textMuted.withValues(alpha: 0.3),
       ),
     );
   }
@@ -147,7 +148,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             AppTheme.mediumGreen,
           ],
         ),
-        border: Border.all(color: AppTheme.textMuted.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.textMuted.withValues(alpha: 0.2)),
       ),
       child: ElevatedButton(
         onPressed: _isNavigating ? null : () {
@@ -198,7 +199,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.actionYellow.withOpacity(0.3),
+            color: AppTheme.actionYellow.withValues(alpha: 0.3),
             blurRadius: 20,
             spreadRadius: -5,
           ),
@@ -286,8 +287,8 @@ class OnboardingPage extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  data.color.withOpacity(0.2),
-                  data.color.withOpacity(0.05),
+                  data.color.withValues(alpha: 0.2),
+                  data.color.withValues(alpha: 0.05),
                 ],
               ),
               shape: BoxShape.circle,
@@ -300,13 +301,13 @@ class OnboardingPage extends StatelessWidget {
                   end: Alignment.bottomRight,
                   colors: [
                     data.color,
-                    data.color.withOpacity(0.7),
+                    data.color.withValues(alpha: 0.7),
                   ],
                 ),
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: data.color.withOpacity(0.3),
+                    color: data.color.withValues(alpha: 0.3),
                     blurRadius: 30,
                     spreadRadius: 5,
                   ),

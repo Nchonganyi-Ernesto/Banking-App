@@ -8,11 +8,16 @@ import 'features/auth/auth_gate.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  print('🚀 App starting...');
   WidgetsFlutterBinding.ensureInitialized();
+  
+  print('🔥 Initializing Firebase...');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  print('✅ Firebase initialized');
 
+  print('🎯 Starting app with ProviderScope...');
   runApp(
     const ProviderScope(
       child: ZentraApp(),
@@ -20,30 +25,19 @@ void main() async {
   );
 }
 
-class ZentraApp extends StatelessWidget {
+class ZentraApp extends ConsumerWidget {
   const ZentraApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    print('🏗️ Building ZentraApp');
+    
     return MaterialApp(
       title: 'Zentra',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const AppInitializer(),
+      // Always show AuthGate at root - it will handle onboarding check too
+      home: const AuthGate(),
     );
-  }
-}
-
-class AppInitializer extends StatelessWidget {
-  const AppInitializer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // Check if onboarding has been completed using the static method
-    if (OnboardingScreen.isCompleted()) {
-      return const AuthGate();
-    } else {
-      return const OnboardingScreen();
-    }
   }
 }

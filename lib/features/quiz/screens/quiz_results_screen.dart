@@ -462,8 +462,8 @@ class _QuizResultsScreenState extends ConsumerState<QuizResultsScreen>
 
     // Add points to user balance in Firestore
     try {
-      final userNotifier = ref.read(userProvider.notifier);
-      await userNotifier.addBalance(reward.toDouble());
+      final userActions = ref.read(userActionsProvider);
+      await userActions.addBalance(reward.toDouble());
 
       // Show success message
       if (mounted) {
