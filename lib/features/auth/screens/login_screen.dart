@@ -148,7 +148,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
       backgroundColor: AppTheme.pageBg,
       body: Stack(
         children: [
-          // Background gradient with subtle glow
           Container(
             decoration: BoxDecoration(
               gradient: RadialGradient(
@@ -163,16 +162,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
               ),
             ),
           ),
-          
-          // Subtle background pattern
           Positioned.fill(
             child: CustomPaint(
               painter: BackgroundPatternPainter(),
               size: Size.infinite,
             ),
           ),
-          
-          // Main content
           SafeArea(
             child: FadeTransition(
               opacity: _fadeAnimation,
@@ -187,7 +182,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Brand and decorative elements
                       Row(
                         children: [
                           Container(
@@ -228,10 +222,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                           ),
                         ],
                       ),
-                      
                       SizedBox(height: screenSize.height * 0.08),
-                      
-                      // Welcome section
                       Text(
                         _isRegistering ? 'Create account' : 'Welcome back',
                         style: AppTheme.headingLarge.copyWith(
@@ -252,10 +243,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                           fontSize: 16,
                         ),
                       ),
-                      
                       SizedBox(height: screenSize.height * 0.05),
-                      
-                      // Form section
                       Form(
                         key: _formKey,
                         child: Column(
@@ -298,7 +286,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                               ),
                               const SizedBox(height: 20),
                             ],
-                            
                             _buildPremiumTextField(
                               controller: _emailController,
                               label: 'Email address',
@@ -314,7 +301,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                               },
                             ),
                             const SizedBox(height: 20),
-                            
                             _buildPremiumTextField(
                               controller: _passwordController,
                               label: 'Password',
@@ -335,7 +321,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                                 return null;
                               },
                             ),
-                            
                             if (_isRegistering) ...[
                               const SizedBox(height: 20),
                               _buildPremiumTextField(
@@ -351,7 +336,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                                 },
                               ),
                             ],
-                            
                             if (_errorMessage != null) ...[
                               const SizedBox(height: 24),
                               Container(
@@ -378,16 +362,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                                 ),
                               ),
                             ],
-                            
                             const SizedBox(height: 32),
-                            
-                            // Sign In Button
                             _buildPremiumButton(),
-                            
                             if (!_isRegistering) ...[
                               const SizedBox(height: 20),
-                              
-                              // Forgot Password
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
@@ -410,10 +388,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                           ],
                         ),
                       ),
-                      
                       SizedBox(height: screenSize.height * 0.04),
-                      
-                      // Registration prompt
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -639,7 +614,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    // Implement password reset logic here
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Reset link sent to ${emailController.text}'),
@@ -664,7 +638,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
   }
 }
 
-// Custom painter for subtle background pattern
 class BackgroundPatternPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

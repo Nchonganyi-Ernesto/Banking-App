@@ -145,6 +145,10 @@ class AppTheme {
         bodyColor: textLight,
         displayColor: textLight,
       ),
+      // Remove splash/ripple effect on taps
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      splashFactory: NoSplash.splashFactory,
     );
   }
 }
