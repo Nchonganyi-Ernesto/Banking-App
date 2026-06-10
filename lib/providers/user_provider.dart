@@ -1,60 +1,92 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/user_model.dart';
+import '../services/firestore_service.dart';
+import '../providers/auth_provider.dart';
 
-// ── What changed from the old version? ────────────────────────────────────
-// OLD (Riverpod < 2.5):  class UserNotifier extends StateNotifier<UserModel>
-// NEW (Riverpod 2.5+):   class UserNotifier extends Notifier<UserModel>
-//
-// The key difference:
-// - Old: initial state was set in the constructor via super(initialState)
-// - New: initial state is returned from a required build() method
-// This new pattern is cleaner — build() acts like a widget's build() method.
+// Provider for FirestoreService
+final firestoreServiceProvider = Provider<FirestoreService>((ref) {
+  return FirestoreService();
+});
 
+// Stream provider that listens to real-time user data from Firestore
+final userStreamProvider = StreamProvider<UserModel?>((ref) {
+  final firebaseUser = ref.watch(firebaseAuthStateProvider).value;
+  
+  if (firebaseUser == null) {
+    return Stream.value(null);
+  }
+
+  final firestoreService = ref.watch(firestoreServiceProvider);
+  
+  return firestoreService.streamUserData(firebaseUser.uid).map((snapshot) {
+    if (!snapshot.exists || snapshot.data() == null) {
+      // Return default user with zero balance if document doesn't exist
+      return UserModel(
+        name: firebaseUser.displayName ?? 'User',
+        avatarUrl: '',
+        balance: 0.0,
+        available: 0.0,
+        sparklineData: const [30, 70, 50, 90, 60, 80, 100, 75],
+      );
+    }
+    return UserModel.fromFirestore(snapshot.data()!);
+  });
+});
+
+// Notifier for updating user data
 class UserNotifier extends Notifier<UserModel> {
-  // build() replaces the old constructor approach.
-  // It runs once when the provider is first read, and returns the initial state.
   @override
   UserModel build() {
-    return const UserModel(
-      name: 'Tamon Joel',
-      avatarUrl: '', // Using initials avatar for now
-      balance: 4250.34,
-      available: 4000.00,
-      // These numbers draw the shape of the sparkline chart on the balance card
-      sparklineData: [30, 70, 50, 90, 60, 80, 100, 75],
+    // Watch the stream and return current user data
+    final userStream = ref.watch(userStreamProvider);
+    
+    return userStream.when(
+      data: (user) => user ?? const UserModel(
+        name: 'User',
+        avatarUrl: '',
+        balance: 0.0,
+        available: 0.0,
+        sparklineData: [30, 70, 50, 90, 60, 80, 100, 75],
+      ),
+      loading: () => const UserModel(
+        name: 'Loading...',
+        avatarUrl: '',
+        balance: 0.0,
+        available: 0.0,
+        sparklineData: [30, 70, 50, 90, 60, 80, 100, 75],
+      ),
+      error: (_, _) => const UserModel(
+        name: 'Error',
+        avatarUrl: '',
+        balance: 0.0,
+        available: 0.0,
+        sparklineData: [30, 70, 50, 90, 60, 80, 100, 75],
+      ),
     );
   }
 
-  // This method updates the balance — called when a transfer is made.
-  // 'state' is now available from the parent Notifier class directly.
-  void updateBalance(double newBalance) {
-    state = UserModel(
-      name: state.name,
-      avatarUrl: state.avatarUrl,
-      balance: newBalance,
-      available: state.available,
-      sparklineData: state.sparklineData,
+  // Update balance in Firestore
+  Future<void> updateBalance(double newBalance) async {
+    final firebaseUser = ref.read(firebaseAuthStateProvider).value;
+    if (firebaseUser == null) return;
+
+    final firestoreService = ref.read(firestoreServiceProvider);
+    await firestoreService.updateUserBalance(
+      firebaseUser.uid,
+      newBalance,
+      newBalance, // For now, available = balance
     );
   }
 
   // Add amount to current balance (e.g., quiz rewards)
-  void addBalance(double amount) {
-    state = UserModel(
-      name: state.name,
-      avatarUrl: state.avatarUrl,
-      balance: state.balance + amount,
-      available: state.available + amount,
-      sparklineData: state.sparklineData,
-    );
+  Future<void> addBalance(double amount) async {
+    final currentUser = state;
+    final newBalance = currentUser.balance + amount;
+    await updateBalance(newBalance);
   }
 }
 
-// ── Provider Declaration ───────────────────────────────────────────────────
-// OLD: StateNotifierProvider<UserNotifier, UserModel>
-// NEW: NotifierProvider<UserNotifier, UserModel>
-//
-// Any widget using ref.watch(userProvider) will automatically rebuild
-// whenever updateBalance() (or any other method that sets state) is called.
+// Main user provider - NotifierProvider
 final userProvider = NotifierProvider<UserNotifier, UserModel>(() {
   return UserNotifier();
 });
