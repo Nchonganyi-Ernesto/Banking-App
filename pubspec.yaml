@@ -52,7 +52,7 @@ dependencies:
   fl_chart: ^1.2.0
 
   # confetti — adds celebration effects for quiz completion
-  confetti: ^0.7.0
+  confetti: ^0.8.0
 
 dev_dependencies:
   flutter_test:

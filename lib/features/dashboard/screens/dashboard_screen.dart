@@ -42,9 +42,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
 
-              // ── 1. Profile + Greeting + Notification Header ──────────────────
+              // ── 1. Header (Profile, Greeting, Notification) ────────────────
               _buildHeader(user.name),
               const SizedBox(height: 28),
 
@@ -65,7 +65,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   .take(3)
                   .map((tx) => TransactionTile(transaction: tx)),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 100), // Extra space for bottom nav
             ],
           ),
         ),
@@ -73,10 +73,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 
-  // ── Header Builder (Profile + Greeting + Notification) ─────────────────────
+  // ── Header Builder ────────────────────────────────────────────────────────
   Widget _buildHeader(String name) {
     final firstName = name.split(' ').first;
-
     return Row(
       children: [
         // Profile Avatar
@@ -106,7 +105,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         ),
         const SizedBox(width: 12),
 
-        // Greeting text
+        // Greeting text and name
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +173,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 decoration: BoxDecoration(
                   color: AppTheme.sentRed,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppTheme.darkGreen, width: 1.5),
+                  border: Border.all(
+                    color: AppTheme.darkGreen,
+                    width: 1.5,
+                  ),
                 ),
               ),
             ),

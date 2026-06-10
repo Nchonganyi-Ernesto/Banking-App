@@ -274,7 +274,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                       children: [
                         Text('Good morning,',
                           style: AppTheme.bodySmall.copyWith(
-                            color: AdminColors.accentYellow.withOpacity(0.8))),
+                            color: AdminColors.accentYellow.withValues(alpha: 0.8))),
                         Text('Admin Sam 👋',
                           style: AppTheme.headingMedium.copyWith(
                             color: AdminColors.white, fontWeight: FontWeight.w700)),
@@ -315,9 +315,9 @@ class _AdminAvatar extends StatelessWidget {
         gradient: const LinearGradient(
           colors: [AdminColors.accentYellow, AdminColors.amberAccent],
         ),
-        border: Border.all(color: AdminColors.white.withOpacity(0.3), width: 2),
+        border: Border.all(color: AdminColors.white.withValues(alpha: 0.3), width: 2),
         boxShadow: [
-          BoxShadow(color: AdminColors.accentYellow.withOpacity(0.4),
+          BoxShadow(color: AdminColors.accentYellow.withValues(alpha: 0.4),
             blurRadius: 12, spreadRadius: 2),
         ],
       ),
@@ -344,8 +344,8 @@ class _AppBarIconButton extends StatelessWidget {
         width: 44, height: 44,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: AdminColors.white.withOpacity(0.12),
-          border: Border.all(color: AdminColors.white.withOpacity(0.2)),
+          color: AdminColors.white.withValues(alpha: 0.12),
+          border: Border.all(color: AdminColors.white.withValues(alpha: 0.2)),
         ),
         child: Stack(
           children: [
@@ -389,7 +389,7 @@ class _SectionHeader extends StatelessWidget {
             color: AdminColors.white, fontSize: 22)),
         const SizedBox(width: AppSpacing.sm),
         Expanded(child: Container(height: 1,
-          color: AdminColors.mutedSageGrey.withOpacity(0.2))),
+          color: AdminColors.mutedSageGrey.withValues(alpha: 0.2))),
       ],
     );
   }
@@ -431,7 +431,7 @@ class _OverviewGrid extends StatelessWidget {
         sub: '88.4% of total',
         icon: '✅',
         gradient: LinearGradient(
-          colors: [AdminColors.successGreen.withOpacity(0.85),
+          colors: [AdminColors.successGreen.withValues(alpha: 0.85),
                    const Color(0xFF2E7D52)]),
         valueColor: AdminColors.white,
         trend: TrendDirection.neutral,
@@ -442,7 +442,7 @@ class _OverviewGrid extends StatelessWidget {
         sub: '↑ 34 from last week',
         icon: '🔒',
         gradient: LinearGradient(
-          colors: [AdminColors.alertRed.withOpacity(0.85),
+          colors: [AdminColors.alertRed.withValues(alpha: 0.85),
                    const Color(0xFFC0392B)]),
         valueColor: AdminColors.white,
         trend: TrendDirection.down,
@@ -563,7 +563,7 @@ class _OverviewCardState extends State<_OverviewCard>
               borderRadius: BorderRadius.circular(AppRadius.xxl),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(_hovering ? 0.2 : 0.1),
+                  color: Colors.black.withValues(alpha: _hovering ? 0.2 : 0.1),
                   blurRadius: _hovering ? 20 : 12,
                   offset: const Offset(0, 6),
                 ),
@@ -578,7 +578,7 @@ class _OverviewCardState extends State<_OverviewCard>
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
+                        color: Colors.white.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(AppRadius.sm),
                       ),
                       child: Text(widget.data.icon,
@@ -596,19 +596,19 @@ class _OverviewCardState extends State<_OverviewCard>
                 Text(widget.data.title,
                   style: TextStyle(
                     fontSize: 13, fontWeight: FontWeight.w500,
-                    color: Colors.white.withOpacity(0.75))),
+                    color: Colors.white.withValues(alpha: 0.75))),
                 const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.12),
+                    color: Colors.white.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(widget.data.sub,
                     style: TextStyle(
                       fontSize: 11, fontWeight: FontWeight.w500,
-                      color: Colors.white.withOpacity(0.85))),
+                      color: Colors.white.withValues(alpha: 0.85))),
                 ),
               ],
             ),
@@ -633,7 +633,7 @@ class _TrendBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         shape: BoxShape.circle,
       ),
       child: Icon(icon, color: color, size: 18),
@@ -745,7 +745,7 @@ class _ChartCardState extends State<_ChartCard>
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 16, offset: const Offset(0, 4)),
         ],
       ),
@@ -781,7 +781,7 @@ class _ChartCardState extends State<_ChartCard>
             height: 140,
             child: AnimatedBuilder(
               animation: _progress,
-              builder: (_, __) => CustomPaint(
+              builder: (_, _) => CustomPaint(
                 painter: _BarChartPainter(
                   data: widget.data.data,
                   color: widget.data.color,
@@ -822,7 +822,7 @@ class _BarChartPainter extends CustomPainter {
     final barW = (size.width - (data.length - 1) * 8) / data.length;
     final paint = Paint()..style = PaintingStyle.fill;
     final gridPaint = Paint()
-      ..color = Colors.white.withOpacity(0.06)
+      ..color = Colors.white.withValues(alpha: 0.06)
       ..strokeWidth = 1;
 
     // Grid lines
@@ -839,7 +839,7 @@ class _BarChartPainter extends CustomPainter {
 
       // Shadow
       final shadowPaint = Paint()
-        ..color = color.withOpacity(0.25)
+        ..color = color.withValues(alpha: 0.25)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
       canvas.drawRRect(
         RRect.fromRectAndRadius(
@@ -851,7 +851,7 @@ class _BarChartPainter extends CustomPainter {
       // Gradient bar
       paint.shader = LinearGradient(
         begin: Alignment.topCenter, end: Alignment.bottomCenter,
-        colors: [color, color.withOpacity(0.5)],
+        colors: [color, color.withValues(alpha: 0.5)],
       ).createShader(Rect.fromLTWH(x, y, barW, barH));
 
       canvas.drawRRect(
@@ -971,18 +971,18 @@ class _QuickActionCardState extends State<_QuickActionCard>
               padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
                 color: _hovering
-                    ? widget.data.color.withOpacity(0.08)
+                    ? widget.data.color.withValues(alpha: 0.08)
                     : AdminColors.secondaryDark,
                 borderRadius: BorderRadius.circular(AppRadius.xl),
                 border: Border.all(
                   color: _hovering
-                      ? widget.data.color.withOpacity(0.4)
+                      ? widget.data.color.withValues(alpha: 0.4)
                       : Colors.transparent,
                   width: 1.5,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(_hovering ? 0.1 : 0.05),
+                    color: Colors.black.withValues(alpha: _hovering ? 0.1 : 0.05),
                     blurRadius: _hovering ? 16 : 8,
                     offset: const Offset(0, 4)),
                 ],
@@ -993,7 +993,7 @@ class _QuickActionCardState extends State<_QuickActionCard>
                   Container(
                     width: 44, height: 44,
                     decoration: BoxDecoration(
-                      color: widget.data.color.withOpacity(0.12),
+                      color: widget.data.color.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(AppRadius.sm),
                     ),
                     child: Icon(widget.data.icon,
@@ -1071,9 +1071,9 @@ class _ServiceCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AdminColors.secondaryDark,
         borderRadius: BorderRadius.circular(AppRadius.xl),
-        border: Border.all(color: color.withOpacity(0.25), width: 1.5),
+        border: Border.all(color: color.withValues(alpha: 0.25), width: 1.5),
         boxShadow: [
-          BoxShadow(color: color.withOpacity(0.1),
+          BoxShadow(color: color.withValues(alpha: 0.1),
             blurRadius: 12, offset: const Offset(0, 4)),
         ],
       ),
@@ -1083,7 +1083,7 @@ class _ServiceCard extends StatelessWidget {
             width: 40, height: 40,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
             ),
             child: Icon(icon, color: color, size: 20),
           ),
@@ -1138,14 +1138,14 @@ class _PulseDotState extends State<_PulseDot>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _anim,
-      builder: (_, __) => Container(
+      builder: (_, _) => Container(
         width: 10, height: 10,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: widget.color.withOpacity(0.4 + 0.6 * _anim.value),
+          color: widget.color.withValues(alpha: 0.4 + 0.6 * _anim.value),
           boxShadow: [
             BoxShadow(
-              color: widget.color.withOpacity(0.6 * _anim.value),
+              color: widget.color.withValues(alpha: 0.6 * _anim.value),
               blurRadius: 6, spreadRadius: 2),
           ],
         ),
@@ -1187,7 +1187,7 @@ class _UserManagementSectionState extends State<_UserManagementSection> {
         color: AdminColors.secondaryDark,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.06),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 16, offset: const Offset(0, 4)),
         ],
       ),
@@ -1207,7 +1207,7 @@ class _UserManagementSectionState extends State<_UserManagementSection> {
                 prefixIcon: const Icon(Icons.search_rounded,
                   color: AdminColors.mutedSageGrey),
                 filled: true,
-                fillColor: AdminColors.primaryDark.withOpacity(0.4),
+                fillColor: AdminColors.primaryDark.withValues(alpha: 0.4),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppRadius.md),
                   borderSide: BorderSide.none,
@@ -1244,7 +1244,7 @@ class _UserTableHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md, vertical: AppSpacing.sm),
       decoration: BoxDecoration(
-        color: AdminColors.primaryDark.withOpacity(0.6),
+        color: AdminColors.primaryDark.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Row(
@@ -1306,7 +1306,7 @@ class _UserTableRowState extends State<_UserTableRow> {
           horizontal: AppSpacing.md, vertical: AppSpacing.sm + 4),
         decoration: BoxDecoration(
           color: _hovering
-              ? AdminColors.mediumGreen.withOpacity(0.15)
+              ? AdminColors.mediumGreen.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.sm),
         ),
@@ -1423,8 +1423,8 @@ class _StatusChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: isActive
-            ? AdminColors.successGreen.withOpacity(0.12)
-            : AdminColors.alertRed.withOpacity(0.12),
+            ? AdminColors.successGreen.withValues(alpha: 0.12)
+            : AdminColors.alertRed.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(status,
@@ -1454,7 +1454,7 @@ class _ActionIconBtn extends StatelessWidget {
         child: Container(
           width: 28, height: 28, margin: const EdgeInsets.only(right: 4),
           decoration: BoxDecoration(
-            shape: BoxShape.circle, color: color.withOpacity(0.1)),
+            shape: BoxShape.circle, color: color.withValues(alpha: 0.1)),
           child: Icon(icon, size: 14, color: color),
         ),
       ),
@@ -1476,7 +1476,7 @@ class _ActivityFeed extends StatelessWidget {
         color: AdminColors.secondaryDark,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.06),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 16, offset: const Offset(0, 4)),
         ],
       ),
@@ -1519,7 +1519,7 @@ class _ActivityTile extends StatelessWidget {
                 width: 36, height: 36,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: item.color.withOpacity(0.12),
+                  color: item.color.withValues(alpha: 0.12),
                 ),
                 child: Center(child: Text(item.icon,
                   style: const TextStyle(fontSize: 15))),
@@ -1527,7 +1527,7 @@ class _ActivityTile extends StatelessWidget {
               if (!isLast)
                 Expanded(
                   child: Container(
-                    width: 2, color: AdminColors.mintTint.withOpacity(0.2),
+                    width: 2, color: AdminColors.mintTint.withValues(alpha: 0.2),
                     margin: const EdgeInsets.symmetric(vertical: 2)),
                 ),
             ],
@@ -1580,7 +1580,7 @@ class _AuditLogPreview extends StatelessWidget {
         color: AdminColors.secondaryDark,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.06),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 16, offset: const Offset(0, 4)),
         ],
       ),
@@ -1625,7 +1625,7 @@ class _AuditTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: AdminColors.primaryDark.withOpacity(0.3),
+        color: AdminColors.primaryDark.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
       child: Row(

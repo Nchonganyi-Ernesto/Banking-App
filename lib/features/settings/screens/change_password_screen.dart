@@ -118,7 +118,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
             children: [
               Text(
                 'Enter your current password and choose a new password.',
-                style: TextStyle(color: Colors.white.withOpacity(0.85), fontSize: 16),
+                style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 16),
               ),
               const SizedBox(height: 20),
               Form(

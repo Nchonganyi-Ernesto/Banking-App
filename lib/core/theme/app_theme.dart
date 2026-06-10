@@ -83,6 +83,10 @@ class AppTheme {
       textTheme: GoogleFonts.interTextTheme(
         ThemeData.light().textTheme,
       ),
+      // Remove splash/ripple effect on taps
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      splashFactory: NoSplash.splashFactory,
     );
   }
 }

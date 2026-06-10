@@ -131,7 +131,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         : 'Sign in to manage your wallet, payments and transfers.';
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

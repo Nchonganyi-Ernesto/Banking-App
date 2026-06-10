@@ -165,7 +165,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     Text(
                       'Update your personal information.',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         fontSize: 16,
                       ),
                     ),
